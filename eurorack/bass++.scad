@@ -4,10 +4,6 @@ panelHp=10;
 holeCount=4;
 holeWidth = 5.08*1; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
-walls=true;
-two_walls=false;
-wall_size=20;
-
 threeUHeight = 133.35; //overall 3u height
 panelOuterHeight =128.5;
 panelInnerHeight = 110; //rail clearance = ~11.675mm, top and bottom
@@ -115,8 +111,8 @@ module eurorackMountHole(hw) {
 potHoleDiam = 7.5;
 jackHoleDiam = 6.5;
 width = panelHp * hp;
-firstCol = 12;
-secondCol = width - 12;
+firstCol = 13;
+secondCol = width - 13;
 
 topMargin = 20;
 verticalSpacing = 18;
@@ -135,7 +131,7 @@ potHoles = [
 
 jackHoles = [
   [8, 110],
-  [8, 98], // led, same diam with socket
+  [8, 94], // led, same diam with socket
   [width-8, 110],
   [width/2, 110],
 ];
@@ -156,23 +152,35 @@ module holes() {
   }
 }
 
+straightY=20;
+angleY=7;
+angleX=4;
+thickness = 2;
+path = [
+  [0, 0],
+  [thickness, 0],
+  [thickness, straightY],
+  [thickness + angleX, straightY + angleY],
+  [thickness + angleX, straightY + angleY * 2-thickness],
+  [thickness, straightY + angleY * 3 - thickness],
+  /*[thickness, straightY*2 + angleY * 3],*/
+  /*[0, straightY*2 + angleY * 3],*/
+  [0, straightY + angleY * 3 - thickness],
+  [angleX, straightY + angleY * 2 - thickness],
+  [angleX, straightY + angleY],
+  [0, straightY]
+];
 
 difference() {
   union() {
     eurorackPanel(panelHp, holeCount,holeWidth);
-    if (walls) {
-      size = [2,panelOuterHeight-20,wall_size];
-      
-      translate([0,10,1]){
-        cube(size);
-      }
-      
-      if (two_walls) {
-        translate([hp*panelHp-2,10,1]){
-          cube(size);
-        }
-      }
-    }
+    firstPart = 20;
+    wallY = panelOuterHeight - 20;
+    translate([0,10,1])
+      translate([0, wallY, 0])
+      rotate([90, 0, 0]) linear_extrude(height=wallY) polygon(points=path);
+    
+    
   }
   
   holes();
