@@ -1,8 +1,8 @@
 
 panelThickness = 2.5;
-panelHp=8;
-holeCount=2;
-holeWidth = 5.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
+panelHp=10;
+holeCount=4;
+holeWidth = 5.08*1; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
 threeUHeight = 133.35; //overall 3u height
 panelOuterHeight =128.5;
@@ -15,14 +15,11 @@ width = panelHp * hp;
 mountHoleDiameter = 3.2;
 mountHoleRad =mountHoleDiameter/2;
 hwCubeWidth = holeWidth-mountHoleDiameter;
-mountHoleXMargin = 7.5; // http://www.doepfer.de/a100_man/a100m_e.htm
-/*mountHoleXMargin = 10; // http://www.doepfer.de/a100_man/a100m_e.htm*/
-/*mountHoleXMargin = hp*1.5; // http://www.doepfer.de/a100_man/a100m_e.htm*/
-
+mountHoldXMargin = 1.5 * hp; //1hp margin on each side
 
 offsetToMountHoleCenterY=mountSurfaceHeight/2;
 
-offsetToMountHoleCenterX = mountHoleXMargin - hwCubeWidth/2;
+offsetToMountHoleCenterX = mountHoldXMargin - hwCubeWidth/2;
 
 module eurorackPanel(panelHp,  mountHoles=2, hw = holeWidth, ignoreMountHoles=false)
 {
@@ -45,11 +42,6 @@ module eurorackMountHoles(php, holes, hw)
     eurorackMountHolesBottomRow(php, hw, holes/2);
 }
 
-// Iteratively calc this since I'm tired and can't do math right now. Point is that since
-// Doepfer says 7.5 from left side, we can't use same offset from the right side since not a multiple of hp
-// See http://www.doepfer.de/a100_man/a100m_e.htm
-rightMountHoleOffsetX = offsetToMountHoleCenterX+hp*(panelHp-3);
-
 module eurorackMountHolesTopRow(php, hw, holes)
 {
 
@@ -57,7 +49,7 @@ module eurorackMountHolesTopRow(php, hw, holes)
     translate([offsetToMountHoleCenterX,panelOuterHeight-offsetToMountHoleCenterY,0])
       eurorackMountHole(hw);
     if(holes>1)
-      translate([rightMountHoleOffsetX,panelOuterHeight-offsetToMountHoleCenterY,0])
+      translate([(hp*php)-hwCubeWidth-offsetToMountHoleCenterX,panelOuterHeight-offsetToMountHoleCenterY,0])
         eurorackMountHole(hw);
     if(holes>2)
     {
@@ -75,7 +67,7 @@ module eurorackMountHolesBottomRow(php, hw, holes)
 {
 
     //bottomRight
-    translate([rightMountHoleOffsetX,offsetToMountHoleCenterY,0])
+    translate([(hp*php)-hwCubeWidth-offsetToMountHoleCenterX,offsetToMountHoleCenterY,0])
     {
         eurorackMountHole(hw);
     }
@@ -119,62 +111,67 @@ module eurorackMountHole(hw) {
 
 potHoleDiam = 7.5;
 jackHoleDiam = 6.5;
-switchHoleDiam = 6.8;
-phoneJackHoleDiam = 8.8;
+switchHoleDiam = 6.5;
+phoneJackHoleDiam = 8.5;
 
 
 sideMargin = 12;
 
 firstCol = sideMargin;
-secondCol = width - sideMargin;
+secondCol = width - sideMagin;
 
 
 middle = width / 2;
 
-echo("firstCol: ", firstCol);
-echo("secondCol: ", secondCol);
-echo("secondCol - firstCol: ", secondCol - firstCol);
-// pots 12 bredd: width12*2 +
 
-topMargin = 19;
-verticalSpacing = 22;
+topMargin = 20;
+verticalSpacing = 20;
+yDelta = 20;
 
+jackFirstCol = 11;
+yStart = 78;
+rowDist = 17;
 
-jackSideMargin = 10;
-jacksOffset = 4;
-holes = [
-  // pots
-  [firstCol, topMargin, potHoleDiam], // input level
+pots = [
+  [firstCol, topMargin, potHoleDiam],
   [firstCol, topMargin + verticalSpacing, potHoleDiam],
   [firstCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*3, potHoleDiam],
-  [secondCol, topMargin, potHoleDiam], // input level
+  [secondCol, topMargin, potHoleDiam],
   [secondCol, topMargin + verticalSpacing, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*3, potHoleDiam],
-
-  // jacks
-  [jackSideMargin, topMargin+verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [middle, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [width-jackSideMargin, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
-
-  // led
-  [jackSideMargin, topMargin+verticalSpacing*3.7, 3.8]
-
+  [secondCol, topMargin + verticalSpacing*2, potHoleDiam]
 ];
 
-mountHoleDepth = panelThickness+2;
+
+jacks = [
+  [jackFirstCol, yStart, jackHoleDiam],
+  [width/2, yStart, jackHoleDiam],
+  [width-jackFirstCol, yStart, jackHoleDiam],
+
+  [jackFirstCol, yStart+rowDist, jackHoleDiam],
+  [width/2, yStart+rowDist, jackHoleDiam],
+  [width-jackFirstCol, yStart+rowDist, jackHoleDiam],
+
+  [jackFirstCol, yStart+rowDist*2, jackHoleDiam],
+  [width/2, yStart+rowDist*2, jackHoleDiam],
+  [width-jackFirstCol, yStart+rowDist*2, jackHoleDiam]
+];
 
 module holes() {
+  mountHoleDepth = panelThickness+2; //because diffs need to be larger than the object they are being diffed from for ideal BSP operations
+
   translate([0, 0, -0.1]) { // to make holes through proper
-    for(hole = holes) {
+    for(hole = pots) {
       translate([hole[0], hole[1]])
       cylinder(d=hole[2], h=mountHoleDepth, $fn=20);
     }
   }
+  for(hole = jacks) {
+      translate([hole[0], hole[1]])
+      cylinder()
+  } 
 }
 
-straightY=20;
+straightY=6;
 straightY2=10;
 angleY=5;
 angleX=2;
@@ -194,26 +191,17 @@ path = [
   [0, straightY]
 ];
 
-
-straightYOtherSide=15;
+heightOtherSide = 12;
 pathOtherSide = [
   [0, 0],
   [thickness, 0],
-  [angleX, straightYOtherSide],
-  [0, straightYOtherSide]
+  [angleX, heightOtherSide],
+  [0, heightOtherSide]
+
 ];
 
 difference() {
   union() {
-    %color("red")
-      cube([7.5, 7.5, 7.5]);
-
-    %translate([7.5, hp*1, 0])
-      for (i=[0:panelHp])
-        translate([i*hp, 0, 0])
-          color([255*i%2, 127*i%3, 255*(i+1)%2])
-            cube([hp, hp, hp]);
-
     eurorackPanel(panelHp, holeCount,holeWidth);
     wallYMarginPerSide = 10;
     wallY = panelOuterHeight - wallYMarginPerSide*2;

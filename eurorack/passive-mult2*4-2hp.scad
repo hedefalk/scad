@@ -1,6 +1,6 @@
 
 panelThickness = 2.5;
-panelHp=8;
+panelHp=2;
 holeCount=2;
 holeWidth = 5.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
@@ -123,7 +123,7 @@ switchHoleDiam = 6.8;
 phoneJackHoleDiam = 8.8;
 
 
-sideMargin = 12;
+sideMargin = 14;
 
 firstCol = sideMargin;
 secondCol = width - sideMargin;
@@ -140,7 +140,7 @@ topMargin = 19;
 verticalSpacing = 22;
 
 
-jackSideMargin = 10;
+jackSideMargin = 12;
 jacksOffset = 4;
 holes = [
   // pots

@@ -1,6 +1,6 @@
 piezo_diam = 28;
 margin = 1;
-piezo_shell = 2;
+piezo_shell = 4;
 drum_depth = 7;
 bottom_thickness = 5;
 epsilon = 0.1;

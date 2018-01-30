@@ -1,6 +1,6 @@
 
 panelThickness = 2.5;
-panelHp=8;
+panelHp=6;
 holeCount=2;
 holeWidth = 5.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
@@ -123,7 +123,7 @@ switchHoleDiam = 6.8;
 phoneJackHoleDiam = 8.8;
 
 
-sideMargin = 12;
+sideMargin = 5;
 
 firstCol = sideMargin;
 secondCol = width - sideMargin;
@@ -140,22 +140,18 @@ topMargin = 19;
 verticalSpacing = 22;
 
 
-jackSideMargin = 10;
+jackSideMargin = 8;
 jacksOffset = 4;
 holes = [
   // pots
-  [firstCol, topMargin, potHoleDiam], // input level
-  [firstCol, topMargin + verticalSpacing, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*3, potHoleDiam],
-  [secondCol, topMargin, potHoleDiam], // input level
-  [secondCol, topMargin + verticalSpacing, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*3, potHoleDiam],
+  [middle, topMargin, potHoleDiam], // input level
+  [middle, topMargin + verticalSpacing, potHoleDiam],
+  [middle, topMargin + verticalSpacing*2, potHoleDiam],
+  [middle, topMargin + verticalSpacing*3, potHoleDiam],
+
 
   // jacks
   [jackSideMargin, topMargin+verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [middle, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
   [width-jackSideMargin, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
 
   // led

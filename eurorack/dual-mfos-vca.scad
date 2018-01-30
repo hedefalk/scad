@@ -1,7 +1,7 @@
 
 panelThickness = 2.5;
-panelHp=8;
-holeCount=2;
+panelHp=10;
+holeCount=4;
 holeWidth = 5.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
 threeUHeight = 133.35; //overall 3u height
@@ -123,44 +123,36 @@ switchHoleDiam = 6.8;
 phoneJackHoleDiam = 8.8;
 
 
-sideMargin = 12;
+sideMagin = 15;
 
-firstCol = sideMargin;
-secondCol = width - sideMargin;
+firstCol = sideMagin;
+secondCol = width - sideMagin;
 
 
 middle = width / 2;
 
-echo("firstCol: ", firstCol);
-echo("secondCol: ", secondCol);
-echo("secondCol - firstCol: ", secondCol - firstCol);
-// pots 12 bredd: width12*2 +
 
-topMargin = 19;
-verticalSpacing = 22;
+topMargin = 16;
+verticalSpacing = 13.8;
 
-
-jackSideMargin = 10;
-jacksOffset = 4;
 holes = [
-  // pots
-  [firstCol, topMargin, potHoleDiam], // input level
-  [firstCol, topMargin + verticalSpacing, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*3, potHoleDiam],
-  [secondCol, topMargin, potHoleDiam], // input level
-  [secondCol, topMargin + verticalSpacing, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*3, potHoleDiam],
-
   // jacks
-  [jackSideMargin, topMargin+verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [middle, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [width-jackSideMargin, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
+  [firstCol, topMargin, jackHoleDiam], // input level
+  [firstCol, topMargin + verticalSpacing, jackHoleDiam], // input level
+  [firstCol, topMargin + verticalSpacing*2, jackHoleDiam],
+  [firstCol, topMargin + verticalSpacing*3, jackHoleDiam],
+  [firstCol, topMargin + verticalSpacing*4, jackHoleDiam],
+  [firstCol, topMargin + verticalSpacing*5, jackHoleDiam],
+  [firstCol, topMargin + verticalSpacing*6, jackHoleDiam],
+  [firstCol, topMargin + verticalSpacing*7, jackHoleDiam],
 
-  // led
-  [jackSideMargin, topMargin+verticalSpacing*3.7, 3.8]
+  // pots
+  [secondCol, topMargin + verticalSpacing*0.5, potHoleDiam],
+  [secondCol, topMargin + verticalSpacing*4.5, potHoleDiam],
 
+  [secondCol, topMargin + verticalSpacing*2.5, switchHoleDiam],
+  [secondCol, topMargin + verticalSpacing*6.5, switchHoleDiam],
+  /*[secondCol, topMargin + verticalSpacing*4+5-7, phoneJackHoleDiam] // headphones*/
 ];
 
 mountHoleDepth = panelThickness+2;

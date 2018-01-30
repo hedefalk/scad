@@ -1,7 +1,7 @@
 
 panelThickness = 2.5;
-panelHp=8;
-holeCount=2;
+panelHp=6;
+holeCount=4;
 holeWidth = 5.08; //If you want wider holes for easier mounting. Otherwise set to any number lower than mountHoleDiameter. Can be passed in as parameter to eurorackPanel()
 
 threeUHeight = 133.35; //overall 3u height
@@ -123,44 +123,24 @@ switchHoleDiam = 6.8;
 phoneJackHoleDiam = 8.8;
 
 
-sideMargin = 12;
-
-firstCol = sideMargin;
-secondCol = width - sideMargin;
-
-
+yDelta = 20;
+jackSpacing = 12;
 middle = width / 2;
 
-echo("firstCol: ", firstCol);
-echo("secondCol: ", secondCol);
-echo("secondCol - firstCol: ", secondCol - firstCol);
-// pots 12 bredd: width12*2 +
 
-topMargin = 19;
-verticalSpacing = 22;
+topMargin = 16;
 
-
-jackSideMargin = 10;
-jacksOffset = 4;
 holes = [
-  // pots
-  [firstCol, topMargin, potHoleDiam], // input level
-  [firstCol, topMargin + verticalSpacing, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [firstCol, topMargin + verticalSpacing*3, potHoleDiam],
-  [secondCol, topMargin, potHoleDiam], // input level
-  [secondCol, topMargin + verticalSpacing, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*2, potHoleDiam],
-  [secondCol, topMargin + verticalSpacing*3, potHoleDiam],
+    [middle, topMargin, switchHoleDiam], // freq range
+    [middle, topMargin+yDelta, potHoleDiam], // freq
+    [width-7, topMargin + yDelta/2, 3.2], // LED
 
-  // jacks
-  [jackSideMargin, topMargin+verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [middle, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
-  [width-jackSideMargin, topMargin + verticalSpacing*4+jacksOffset, jackHoleDiam],
+    [middle, topMargin+yDelta*2, switchHoleDiam], // sync phase
+    [middle, topMargin+yDelta*2+14, jackHoleDiam], // sync trig
 
-  // led
-  [jackSideMargin, topMargin+verticalSpacing*3.7, 3.8]
-
+    [middle, topMargin+yDelta*3+jackSpacing, jackHoleDiam], // sine, tria, pulse
+    [middle, topMargin+yDelta*3+jackSpacing*2, jackHoleDiam],
+    [middle, topMargin+yDelta*3+jackSpacing*3, jackHoleDiam],
 ];
 
 mountHoleDepth = panelThickness+2;
